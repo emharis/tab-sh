@@ -75,7 +75,8 @@
                         <td></td>
                         <td>ROMBEL</td>
                         <td>:</td>
-                        <td>{{ $siswa->rombels()->orderBy('created_at','desc')->first()->nama }}</td>
+                        <!--<td>{{ $siswa->rombels()->orderBy('created_at','desc')->first()->nama }}</td>-->
+                        <td>{{ $rombel->nama }}</td>
                     </tr>
                     <tr>
                         <td>NAMA</td>

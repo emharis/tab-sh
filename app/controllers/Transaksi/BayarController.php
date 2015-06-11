@@ -20,7 +20,12 @@ class BayarController extends \BaseController {
      */
     public function create() {
         $siswa = \App\Models\Siswa::find(\Input::get('idsiswa'));
-        return \View::make('transaksi.bayar.debet', array('siswa' => $siswa));
+        $rombel = \DB::select('select rombel_id from rombelsiswa where rombelsiswa.siswa_id = ' . \Input::get('idsiswa') . ' order by created_at desc limit 1');
+        $rombel = \DB::table('rombel')->find($rombel[0]->rombel_id);
+        return \View::make('transaksi.bayar.debet', array(
+                    'siswa' => $siswa,
+                    'rombel' => $rombel
+        ));
     }
 
     public function debet($siswaid) {
@@ -100,11 +105,11 @@ class BayarController extends \BaseController {
 
         return \Redirect::to('transaksi/bayar/debet/' . $trans->siswa_id);
     }
-    
-    public function datasiswa(){
-        $tapelAktif = \App\Models\Tapel::where('aktif','Y')->first();
-        $siswas = $tapelAktif->siswas()->orderBy('nisn','desc')->get();
-        return \View::make('transaksi.bayar.datasiswa')->with('siswas',$siswas);
+
+    public function datasiswa() {
+        $tapelAktif = \App\Models\Tapel::where('aktif', 'Y')->first();
+        $siswas = $tapelAktif->siswas()->orderBy('nisn', 'desc')->get();
+        return \View::make('transaksi.bayar.datasiswa')->with('siswas', $siswas);
     }
 
     /**
